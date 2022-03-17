@@ -31,82 +31,92 @@ namespace MMORPG_GameServer
             m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
         }
 
+        /// <summary>
+        /// 接收数据的回调
+        /// </summary>
+        /// <param name="asyncResult"></param>
         private void ReceiveCallback(IAsyncResult asyncResult)
         {
+            int count;
             try
             {
                 //异步方法Begin...必须调用相应的End...完成异步操作
-                int len = m_Socket.EndReceive(asyncResult);
-
-                Console.WriteLine("接收到消息，字节数：{0}", len);
-
-                if (len > 0)
-                {
-                    //已经接收到数据
-
-                    //把接收到的数据写入缓冲数据流的尾部
-                    m_ReceiveMS.Position = m_ReceiveMS.Length;
-
-                    //把指定长度的字节写入数据流
-                    m_ReceiveMS.Write(m_ReceiveBuffer, 0, len);
-
-                    if (m_ReceiveMS.Length > 2)
-                    {
-                        m_ReceiveMS.Position = 0;
-                        while (true)
-                        {
-                            //数据包的头部接收完成，读取包体长度
-                            ushort bodyLen = m_ReceiveMS.ReadUShort();
-                            if (m_ReceiveMS.Length - m_ReceiveMS.Position >= bodyLen)
-                            {
-                                //包体接收完成
-                                string body = m_ReceiveMS.ReadUTF8String();
-                                Console.WriteLine("接收到消息：" + body);
-                                if(m_ReceiveMS.Length - m_ReceiveMS.Position <= 2)
-                                {
-                                    //剩余不足两个字节，将剩余字节移到开头
-                                    byte[] buffer = m_ReceiveMS.GetBuffer();
-                                    long i = m_ReceiveMS.Position, j = 0;
-                                    while (i < m_ReceiveMS.Length)
-                                    {
-                                        buffer[j] = buffer[i];
-                                        ++i;
-                                        ++j;
-                                    }
-                                    m_ReceiveMS.SetLength(j);
-                                    break;
-                                }
-                            }
-                            else
-                            {
-                                //包体不完整，等包体接收完整再解析
-                                byte[] buffer = m_ReceiveMS.GetBuffer();
-                                long i = m_ReceiveMS.Position, j = 0;
-                                while (i < m_ReceiveMS.Length)
-                                {
-                                    buffer[j] = buffer[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                m_ReceiveMS.SetLength(j);
-                                break;
-                            }
-                        }
-                    }
-
-                    //继续异步接收消息
-                    m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
-                }
-                else
-                {
-                    //客户端断开连接
-                    Console.WriteLine("客户端{0}断开连接", m_Socket.RemoteEndPoint.ToString());
-                }
+                count = m_Socket.EndReceive(asyncResult);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //连接异常
                 Console.WriteLine("与{0}的连接异常，error：{1}", m_Socket.RemoteEndPoint.ToString(), ex.Message);
+                return;
+            }
+
+            if (count > 0)
+            {
+                //已经接收到数据
+
+                //把接收的字节写入字节流的尾部
+                m_ReceiveMS.Write(m_ReceiveBuffer, 0, count);
+
+                //字节流长度达到2个字节，至少一个消息的头部接收完成，因为客户端消息的头部是ushort类型
+                if (m_ReceiveMS.Length >= 2)
+                {
+                    m_ReceiveMS.Position = 0;
+                    while (true)
+                    {
+                        //读取内容的字节数
+                        ushort contentCount = m_ReceiveMS.ReadUShort();
+                        if (m_ReceiveMS.Length - m_ReceiveMS.Position >= contentCount)
+                        {
+                            //消息的内容已经接收完成
+                            byte[] content = new byte[contentCount];
+                            m_ReceiveMS.Read(content, 0, contentCount);
+
+                            MMO_MemoryStream ms = new MMO_MemoryStream(content);
+                            string contentStr = ms.ReadUTF8String();
+                            Console.WriteLine(contentStr);
+
+                            long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
+                            if (leftCount == 0)
+                            {
+                                //没有剩余字节，指针和长度都置为0
+                                m_ReceiveMS.Position = 0;
+                                m_ReceiveMS.SetLength(0);
+                                break;
+                            }
+                            else if(leftCount == 1)
+                            {
+                                //剩余1个字节，移到字节流开头，指针和长度都置为1
+                                byte[] buffer = m_ReceiveMS.GetBuffer();
+                                buffer[0] = buffer[m_ReceiveMS.Position];
+                                m_ReceiveMS.Position = 1;
+                                m_ReceiveMS.SetLength(1);
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            //消息内容接收不完整，将剩余字节移到字节流开头，等内容接收完整再解析
+                            byte[] buffer = m_ReceiveMS.GetBuffer();
+                            long i = 0, j = m_ReceiveMS.Position;
+                            while (i < m_ReceiveMS.Length)
+                            {
+                                buffer[i] = buffer[j];
+                                ++i;
+                                ++j;
+                            }
+                            m_ReceiveMS.SetLength(j);
+                            break;
+                        }
+                    }
+                }
+
+                //继续异步接收数据
+                m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
+            }
+            else
+            {
+                //客户端断开连接
+                Console.WriteLine("客户端{0}断开连接", m_Socket.RemoteEndPoint.ToString());
             }
         }
     }
