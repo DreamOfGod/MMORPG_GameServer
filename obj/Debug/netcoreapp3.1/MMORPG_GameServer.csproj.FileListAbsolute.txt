@@ -1,0 +1,14 @@
+D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\MMORPG_GameServer.exe
+D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\MMORPG_GameServer.deps.json
+D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\MMORPG_GameServer.runtimeconfig.json
+D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\MMORPG_GameServer.runtimeconfig.dev.json
+D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\MMORPG_GameServer.dll
+D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\MMORPG_GameServer.pdb
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.csproj.AssemblyReference.cache
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.GeneratedMSBuildEditorConfig.editorconfig
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.AssemblyInfoInputs.cache
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.AssemblyInfo.cs
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.csproj.CoreCompileInputs.cache
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.dll
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.pdb
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.genruntimeconfig.cache

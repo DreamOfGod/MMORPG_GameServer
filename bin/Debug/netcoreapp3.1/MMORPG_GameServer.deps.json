@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "MMORPG_GameServer/1.0.0": {
+        "runtime": {
+          "MMORPG_GameServer.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MMORPG_GameServer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
