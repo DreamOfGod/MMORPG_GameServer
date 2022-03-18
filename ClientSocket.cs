@@ -27,6 +27,10 @@ namespace MMORPG_GameServer
         {
             m_Socket = socket;
 
+            MMO_MemoryStream ms = new MMO_MemoryStream();
+            ms.WriteUTF8String(string.Format("欢迎登陆服务器{0}", DateTime.Now.ToString()));
+            SendMsg(ms.ToArray());
+
             //异步接收数据
             m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
         }
@@ -72,8 +76,10 @@ namespace MMORPG_GameServer
                             m_ReceiveMS.Read(content, 0, contentCount);
 
                             MMO_MemoryStream ms = new MMO_MemoryStream(content);
-                            string contentStr = ms.ReadUTF8String();
-                            Console.WriteLine(contentStr);
+                            ushort protocolId = ms.ReadUShort();
+                            Console.WriteLine("协议号：{0}", protocolId);
+                            TestProtocol protocol = TestProtocol.GetProtocol(ms.ToArray());
+                            Console.Write(protocol.Name);
 
                             long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
                             if (leftCount == 0)
@@ -118,6 +124,28 @@ namespace MMORPG_GameServer
                 //客户端断开连接
                 Console.WriteLine("客户端{0}断开连接", m_Socket.RemoteEndPoint.ToString());
             }
+        }
+
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="data"></param>
+        private void SendMsg(byte[] data)
+        {
+            MMO_MemoryStream ms = new MMO_MemoryStream();
+            ms.WriteUShort((ushort)data.Length);
+            ms.Write(data, 0, data.Length);
+            byte[] msg = ms.ToArray();
+            m_Socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, SendCallback, null);
+        }
+
+        /// <summary>
+        /// 发送消息的回调
+        /// </summary>
+        /// <param name="asyncResult"></param>
+        private void SendCallback(IAsyncResult asyncResult)
+        {
+            m_Socket.EndSend(asyncResult);
         }
     }
 }
