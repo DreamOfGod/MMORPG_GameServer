@@ -8,6 +8,8 @@ namespace MMORPG_GameServer
     /// </summary>
     public class ClientSocket
     {
+        public Role Role;
+
         /// <summary>
         /// 客户端Socket
         /// </summary>
@@ -16,7 +18,7 @@ namespace MMORPG_GameServer
         /// <summary>
         /// 接收数据包的字节数组缓冲区
         /// </summary>
-        private byte[] m_ReceiveBuffer = new byte[10240];
+        private byte[] m_ReceiveBuffer = new byte[2048];
 
         /// <summary>
         /// 接收数据包的缓冲数据流
@@ -76,10 +78,10 @@ namespace MMORPG_GameServer
                             m_ReceiveMS.Read(content, 0, contentCount);
 
                             MMO_MemoryStream ms = new MMO_MemoryStream(content);
-                            ushort protocolId = ms.ReadUShort();
-                            Console.WriteLine("协议号：{0}", protocolId);
-                            TestProtocol protocol = TestProtocol.GetProtocol(ms.ToArray());
-                            Console.Write(protocol.Name);
+                            ushort protoCode = ms.ReadUShort();
+                            byte[] protoContent = new byte[contentCount - 2];
+                            ms.Read(protoContent, 0, protoContent.Length);
+                            EventDispatcher.Instance.Dispatch(protoCode, protoContent, Role);
 
                             long leftCount = m_ReceiveMS.Length - m_ReceiveMS.Position;
                             if (leftCount == 0)
@@ -130,7 +132,7 @@ namespace MMORPG_GameServer
         /// 发送消息
         /// </summary>
         /// <param name="data"></param>
-        private void SendMsg(byte[] data)
+        public void SendMsg(byte[] data)
         {
             MMO_MemoryStream ms = new MMO_MemoryStream();
             ms.WriteUShort((ushort)data.Length);

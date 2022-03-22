@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MMORPG_GameServer.DBModel;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -14,6 +15,8 @@ namespace MMORPG_GameServer
 
         static void Main(string[] args)
         {
+            TestDBModel.Instance.Init();
+
             //实例化socket，用来监听连接请求
             m_ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -37,6 +40,8 @@ namespace MMORPG_GameServer
 
                 //一个角色就相当于一个客户端
                 Role role = new Role(clientSocket);
+
+                clientSocket.Role = role;
 
                 //把角色添加到角色管理
                 RoleMgr.Instance.AddRole(role);

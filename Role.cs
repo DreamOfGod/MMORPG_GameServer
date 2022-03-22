@@ -14,6 +14,8 @@ namespace MMORPG_GameServer
         /// </summary>
         private ClientSocket m_ClientSocket;
 
+        public ClientSocket ClientSocket { get { return m_ClientSocket; } }
+
         public Role(ClientSocket clientSocket)
         {
             m_ClientSocket = clientSocket;
