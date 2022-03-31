@@ -5,4 +5,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="CacheModel\Generate\" />
+    <Folder Include="DBModel\Generate\" />
+    <Folder Include="Entity\Generate\" />
+  </ItemGroup>
+
 </Project>

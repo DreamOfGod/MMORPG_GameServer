@@ -1,0 +1,10 @@
+create database DBGameServer;
+
+create table Role (
+	Id int primary key auto_increment not null,
+	Status tinyint not null,
+	Nickname nvarchar(50) not null,
+	JobId int not null,
+	CreateTime datetime not null,
+	UpdateTime datetime not null
+);
