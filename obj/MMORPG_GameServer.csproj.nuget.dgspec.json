@@ -21,12 +21,17 @@
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj": {
+                "projectPath": "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -38,6 +43,16 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[4.4.1, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -55,6 +70,21 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
         }
+      }
+    },
+    "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj",
+        "projectName": "Mmcoy.Framework",
+        "projectPath": "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj",
+        "frameworks": {
+          "net45": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net45": {}
       }
     }
   }

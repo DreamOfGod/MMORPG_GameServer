@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,9 +6,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CacheModel\Generate\" />
-    <Folder Include="DBModel\Generate\" />
-    <Folder Include="Entity\Generate\" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MMORPG_Unity\DevelopmentUtility\youyou_Framework\Mmcoy.Framework\Mmcoy.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Mmcoy.Framework">
+      <HintPath>..\MMORPG_Unity\DevelopmentUtility\youyou_Framework\Mmcoy.Lib\Mmcoy.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
