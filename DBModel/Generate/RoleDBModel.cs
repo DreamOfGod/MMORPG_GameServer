@@ -2,7 +2,7 @@
 /// 类名 : RoleDBModel
 /// 作者 : 
 /// 说明 : 
-/// 创建日期 : 2022-04-02 11:53:14
+/// 创建日期 : 2022-04-09 12:41:57
 /// </summary>
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ public partial class RoleDBModel : MFAbstractSQLDBModel<RoleEntity>
     /// </summary>
     private RoleDBModel()
     {
-        
+
     }
     #endregion
 
@@ -83,7 +83,7 @@ public partial class RoleDBModel : MFAbstractSQLDBModel<RoleEntity>
         {
             if (_ColumnList == null)
             {
-                _ColumnList = new List<string> { "Id", "Status", "Nickname", "JobID", "CreateTime", "UpdateTime" };
+                _ColumnList = new List<string> { "Id", "Status", "AccountId", "GameServerId", "JobID", "Nickname", "Sex", "Level", "CreateTime", "UpdateTime" };
             }
             return _ColumnList;
         }
@@ -101,8 +101,12 @@ public partial class RoleDBModel : MFAbstractSQLDBModel<RoleEntity>
         SqlParameter[] parameters = new SqlParameter[] {
                 new SqlParameter("@Id", entity.Id) { DbType = DbType.Int32 },
                 new SqlParameter("@Status", entity.Status) { DbType = DbType.Byte },
-                new SqlParameter("@Nickname", entity.Nickname) { DbType = DbType.String },
+                new SqlParameter("@AccountId", entity.AccountId) { DbType = DbType.Int32 },
+                new SqlParameter("@GameServerId", entity.GameServerId) { DbType = DbType.Int32 },
                 new SqlParameter("@JobID", entity.JobID) { DbType = DbType.Int32 },
+                new SqlParameter("@Nickname", entity.Nickname) { DbType = DbType.String },
+                new SqlParameter("@Sex", entity.Sex) { DbType = DbType.Byte },
+                new SqlParameter("@Level", entity.Level) { DbType = DbType.Int32 },
                 new SqlParameter("@CreateTime", entity.CreateTime) { DbType = DbType.DateTime },
                 new SqlParameter("@UpdateTime", entity.UpdateTime) { DbType = DbType.DateTime },
                 new SqlParameter("@RetMsg", SqlDbType.NVarChar, 255),
@@ -137,13 +141,29 @@ public partial class RoleDBModel : MFAbstractSQLDBModel<RoleEntity>
                     if (!(reader["Status"] is DBNull))
                         entity.Status = (EnumEntityStatus)Convert.ToInt32(reader["Status"]);
                     break;
-                case "nickname":
-                    if (!(reader["Nickname"] is DBNull))
-                        entity.Nickname = Convert.ToString(reader["Nickname"]);
+                case "accountid":
+                    if (!(reader["AccountId"] is DBNull))
+                        entity.AccountId = Convert.ToInt32(reader["AccountId"]);
+                    break;
+                case "gameserverid":
+                    if (!(reader["GameServerId"] is DBNull))
+                        entity.GameServerId = Convert.ToInt32(reader["GameServerId"]);
                     break;
                 case "jobid":
                     if (!(reader["JobID"] is DBNull))
                         entity.JobID = Convert.ToInt32(reader["JobID"]);
+                    break;
+                case "nickname":
+                    if (!(reader["Nickname"] is DBNull))
+                        entity.Nickname = Convert.ToString(reader["Nickname"]);
+                    break;
+                case "sex":
+                    if (!(reader["Sex"] is DBNull))
+                        entity.Sex = Convert.ToByte(reader["Sex"]);
+                    break;
+                case "level":
+                    if (!(reader["Level"] is DBNull))
+                        entity.Level = Convert.ToInt32(reader["Level"]);
                     break;
                 case "createtime":
                     if (!(reader["CreateTime"] is DBNull))

@@ -559,19 +559,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {}
+    "C:\\Users\\15976\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Code\\UnityProjects\\MMORPG_GameServer\\MMORPG_GameServer.csproj",
+      "projectUniqueName": "E:\\Code\\UnityProjects\\MMORPG_GameServer\\MMORPG_GameServer.csproj",
       "projectName": "MMORPG_GameServer",
-      "projectPath": "D:\\Code\\UnityProjects\\MMORPG_GameServer\\MMORPG_GameServer.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "D:\\Code\\UnityProjects\\MMORPG_GameServer\\obj\\",
+      "projectPath": "E:\\Code\\UnityProjects\\MMORPG_GameServer\\MMORPG_GameServer.csproj",
+      "packagesPath": "C:\\Users\\15976\\.nuget\\packages\\",
+      "outputPath": "E:\\Code\\UnityProjects\\MMORPG_GameServer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\15976\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -585,8 +585,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj": {
-              "projectPath": "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj"
+            "E:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj": {
+              "projectPath": "E:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj"
             }
           }
         }

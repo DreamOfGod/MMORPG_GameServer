@@ -2,7 +2,7 @@
 /// 类名 : RoleEntity
 /// 作者 : 
 /// 说明 : 
-/// 创建日期 : 2022-04-02 11:49:09
+/// 创建日期 : 2022-04-09 12:41:36
 /// </summary>
 using System;
 using System.Collections.Generic;
@@ -49,12 +49,32 @@ public partial class RoleEntity : MFAbstractEntity
     /// <summary>
     /// 
     /// </summary>
-    public string Nickname { get; set; }
+    public int AccountId { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int GameServerId { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
     public int JobID { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string Nickname { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public byte Sex { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int Level { get; set; }
 
     /// <summary>
     /// 
