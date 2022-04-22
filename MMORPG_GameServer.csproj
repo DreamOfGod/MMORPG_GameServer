@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MMORPG_Unity\DevelopmentUtility\youyou_Framework\Mmcoy.Framework\Mmcoy.Framework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="Mmcoy.Framework">
       <HintPath>..\MMORPG_Unity\DevelopmentUtility\youyou_Framework\Mmcoy.Lib\Mmcoy.Framework.dll</HintPath>
     </Reference>
@@ -27,7 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controller\" />
+    <Folder Include="Entity\Role\" />
+    <Folder Include="Protocol\" />
   </ItemGroup>
 
 </Project>

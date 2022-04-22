@@ -27,11 +27,7 @@
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
-            "projectReferences": {
-              "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj": {
-                "projectPath": "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {
@@ -70,21 +66,6 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
         }
-      }
-    },
-    "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj": {
-      "restore": {
-        "projectUniqueName": "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj",
-        "projectName": "Mmcoy.Framework",
-        "projectPath": "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj",
-        "frameworks": {
-          "net45": {
-            "projectReferences": {}
-          }
-        }
-      },
-      "frameworks": {
-        "net45": {}
       }
     }
   }

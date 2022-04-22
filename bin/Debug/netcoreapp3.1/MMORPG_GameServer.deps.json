@@ -8,10 +8,9 @@
     ".NETCoreApp,Version=v3.1": {
       "MMORPG_GameServer/1.0.0": {
         "dependencies": {
-          "Mmcoy.Framework": "1.0.0",
           "System.Configuration.ConfigurationManager": "4.4.1",
           "System.Data.SqlClient": "4.8.3",
-          "Mmcoy.Framework.Reference": "1.0.0.0"
+          "Mmcoy.Framework": "1.0.0.0"
         },
         "runtime": {
           "MMORPG_GameServer.dll": {}
@@ -119,7 +118,7 @@
         }
       },
       "System.Security.Principal.Windows/4.7.0": {},
-      "Mmcoy.Framework.Reference/1.0.0.0": {
+      "Mmcoy.Framework/1.0.0.0": {
         "runtime": {
           "Mmcoy.Framework.dll": {
             "assemblyVersion": "1.0.0.0",
@@ -310,7 +309,7 @@
       "path": "system.security.principal.windows/4.7.0",
       "hashPath": "system.security.principal.windows.4.7.0.nupkg.sha512"
     },
-    "Mmcoy.Framework.Reference/1.0.0.0": {
+    "Mmcoy.Framework/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

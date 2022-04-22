@@ -157,15 +157,6 @@
             "rid": "win"
           }
         }
-      },
-      "Mmcoy.Framework/1.0.0": {
-        "type": "project",
-        "compile": {
-          "bin/placeholder/Mmcoy.Framework.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Mmcoy.Framework.dll": {}
-        }
       }
     }
   },
@@ -544,16 +535,10 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
-    },
-    "Mmcoy.Framework/1.0.0": {
-      "type": "project",
-      "path": "../MMORPG_Unity/DevelopmentUtility/youyou_Framework/Mmcoy.Framework/Mmcoy.Framework.csproj",
-      "msbuildProject": "../MMORPG_Unity/DevelopmentUtility/youyou_Framework/Mmcoy.Framework/Mmcoy.Framework.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Mmcoy.Framework >= 1.0.0",
       "System.Configuration.ConfigurationManager >= 4.4.1",
       "System.Data.SqlClient >= 4.8.3"
     ]
@@ -584,11 +569,7 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {
-            "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj": {
-              "projectPath": "D:\\Code\\UnityProjects\\MMORPG_Unity\\DevelopmentUtility\\youyou_Framework\\Mmcoy.Framework\\Mmcoy.Framework.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

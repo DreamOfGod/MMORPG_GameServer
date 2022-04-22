@@ -3,6 +3,7 @@
 //创建时间：2022-03-22 15:54:04
 //备    注：
 //===============================================
+using System;
 using System.Collections.Generic;
 
 namespace MMORPG_GameServer
@@ -10,16 +11,16 @@ namespace MMORPG_GameServer
     public class EventDispatcher
     {
         #region 单例
-        private static object lock_object = new object();
+        private EventDispatcher() { }
+        private static object lockObj = new object();
         private static EventDispatcher instance;
-
         public static EventDispatcher Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    lock (lock_object)
+                    lock (lockObj)
                     {
                         if (instance == null)
                         {
@@ -32,11 +33,9 @@ namespace MMORPG_GameServer
         }
         #endregion
 
-        public delegate void EventHanlder(byte[] buffer, Role role);
+        private Dictionary<ushort, HashSet<Action<byte[], Role>>> m_HandlerDic = new Dictionary<ushort, HashSet<Action<byte[], Role>>>();
 
-        private Dictionary<ushort, HashSet<EventHanlder>> m_HandlerDic = new Dictionary<ushort, HashSet<EventHanlder>>();
-
-        public void AddListener(ushort protoCode, EventHanlder handler)
+        public void AddListener(ushort protoCode, Action<byte[], Role> handler)
         {
             if (m_HandlerDic.ContainsKey(protoCode))
             {
@@ -44,13 +43,13 @@ namespace MMORPG_GameServer
             }
             else
             {
-                HashSet<EventHanlder> handlerSet = new HashSet<EventHanlder>();
+                var handlerSet = new HashSet<Action<byte[], Role>>();
                 handlerSet.Add(handler);
                 m_HandlerDic[protoCode] = handlerSet;
             }
         }
 
-        public void RemoveListener(ushort protoCode, EventHanlder handler)
+        public void RemoveListener(ushort protoCode, Action<byte[], Role> handler)
         {
             if (m_HandlerDic.ContainsKey(protoCode))
             {
@@ -62,8 +61,8 @@ namespace MMORPG_GameServer
         {
             if (m_HandlerDic.ContainsKey(protoCode))
             {
-                HashSet<EventHanlder> handlerSet = m_HandlerDic[protoCode];
-                foreach (EventHanlder handler in handlerSet)
+                var handlerSet = m_HandlerDic[protoCode];
+                foreach (var handler in handlerSet)
                 {
                     handler(buffer, role);
                 }
