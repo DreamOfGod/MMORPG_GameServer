@@ -10,7 +10,7 @@ namespace MMORPG_GameServer
         private const string m_ServerIP = "127.0.0.1";
         private const int m_Port = 1011;
 
-        private static Socket m_ServerSocket;
+        private static Socket m_Socket;
 
         static void Main(string[] args)
         {
@@ -26,23 +26,23 @@ namespace MMORPG_GameServer
         private static void InitSocket()
         {
             //实例化socket，用来监听连接请求
-            m_ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             //向操作系统申请一个可用的ip和端口号用来通讯
-            m_ServerSocket.Bind(new IPEndPoint(IPAddress.Parse(m_ServerIP), m_Port));
+            m_Socket.Bind(new IPEndPoint(IPAddress.Parse(m_ServerIP), m_Port));
 
             //设置最多3000个排队连接请求
-            m_ServerSocket.Listen(3000);
+            m_Socket.Listen(3000);
 
-            Console.WriteLine("启动监听{0}成功", m_ServerSocket.LocalEndPoint.ToString());
+            Console.WriteLine($"启动socket监听{ m_Socket.LocalEndPoint }成功");
 
             //监听socket连接请求
             while (true)
             {
                 //接收客户端请求
-                Socket socket = m_ServerSocket.Accept();
+                Socket socket = m_Socket.Accept();
 
-                Console.WriteLine("客户端{0}已经连接", socket.RemoteEndPoint.ToString());
+                Console.WriteLine($"客户端{ socket.RemoteEndPoint }已经连接");
 
                 ClientSocket clientSocket = new ClientSocket(socket);
 

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace MMORPG_GameServer
 {
@@ -10,50 +13,167 @@ namespace MMORPG_GameServer
     {
         public Role Role;
 
-        /// <summary>
-        /// 客户端Socket
-        /// </summary>
+        #region socket对象
+        //客户端Socket
         private Socket m_Socket;
 
-        /// <summary>
-        /// 进行压缩的长度下限
-        /// </summary>
-        private const int COMPRESS_LENGTH = 200;
+        //远程终端
+        private IPEndPoint m_RemoteEndPoint;
+        #endregion
 
-        /// <summary>
-        /// 接收数据包的字节数组缓冲区
-        /// </summary>
+        #region 发送相关
+        //同步发送线程的事件
+        private AutoResetEvent m_CheckToBeSentMsgEvent = new AutoResetEvent(false);
+
+        //待发送的消息队列
+        private Queue<byte[]> m_ToBeSentMsgQueue = new Queue<byte[]>();
+
+        // 进行压缩的长度下限
+        private const int COMPRESS_LENGTH = 200;
+        #endregion
+
+        #region 接收相关
+        // 接收数据包的字节数组缓冲区
         private byte[] m_ReceiveBuffer = new byte[2048];
 
-        /// <summary>
-        /// 接收数据包的缓冲数据流
-        /// </summary>
+        // 接收数据包的缓冲数据流
         private MMO_MemoryStream m_ReceiveMS = new MMO_MemoryStream();
+        #endregion
 
+        #region 构造函数
         public ClientSocket(Socket socket)
         {
             m_Socket = socket;
+            m_RemoteEndPoint = (IPEndPoint)socket.RemoteEndPoint;
+            ThreadPool.QueueUserWorkItem(SendThreadMain, null);
+            BeginReceive();
+        }
+        #endregion
 
-            //异步接收数据
-            m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
+        #region 发送线程
+        //发送线程的执行入口
+        private void SendThreadMain(object state)
+        {
+            while (true)
+            {
+                lock(m_ToBeSentMsgQueue)
+                {
+                    if (m_ToBeSentMsgQueue.Count > 0)
+                    {
+                        try
+                        {
+                            byte[] msg = m_ToBeSentMsgQueue.Peek();
+                            m_Socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, SendCallback, null);
+                        }
+                        catch (SocketException ex)
+                        {
+                            Console.WriteLine($"与{ m_RemoteEndPoint }的连接异常，exception：{ ex }");
+                            try
+                            {
+                                m_Socket.Shutdown(SocketShutdown.Both);
+                            }
+                            finally
+                            {
+                                m_Socket.Close();
+                            }
+                            m_ToBeSentMsgQueue.Clear();
+                        }
+                        catch (ObjectDisposedException)
+                        {
+
+                        }
+                    }
+                }
+                m_CheckToBeSentMsgEvent.WaitOne();
+            }
         }
 
-        /// <summary>
-        /// 接收数据的回调
-        /// </summary>
-        /// <param name="asyncResult"></param>
+        // 发送消息的回调
+        private void SendCallback(IAsyncResult asyncResult)
+        {
+            try
+            {
+                int count = m_Socket.EndSend(asyncResult);
+                if (count == m_ToBeSentMsgQueue.Peek().Length)
+                {
+                    //消息发送完整
+                    m_ToBeSentMsgQueue.Dequeue();
+                }
+                else if (count >= 0)
+                {
+                    //消息未发送完整
+                    byte[] msg = m_ToBeSentMsgQueue.Dequeue();
+                    byte[] restMsg = new byte[msg.Length - count];//消息的剩余未发送的字节
+                    Array.Copy(msg, count, restMsg, 0, restMsg.Length);
+                    m_ToBeSentMsgQueue.Enqueue(restMsg);
+                }
+                m_CheckToBeSentMsgEvent.Set();
+            }
+            catch (SocketException ex)
+            {
+                Console.WriteLine($"与{ m_RemoteEndPoint }的连接异常，exception：{ ex }");
+                try
+                {
+                    m_Socket.Shutdown(SocketShutdown.Both);
+                }
+                finally
+                {
+                    m_Socket.Close();
+                }
+                m_ToBeSentMsgQueue.Clear();
+            }
+            catch (ObjectDisposedException)
+            {
+
+            }
+        }
+        #endregion
+
+        #region 异步接收
+        //异步接收
+        private void BeginReceive()
+        {
+            try
+            {
+                m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
+            }
+            catch (SocketException ex)
+            {
+                try
+                {
+                    m_Socket.Shutdown(SocketShutdown.Both);
+                }
+                finally
+                {
+                    m_Socket.Close();
+                }
+                Console.WriteLine($"与{ m_RemoteEndPoint }的连接异常，exception：{ ex }");
+            }
+        }
+
+        // 接收数据的回调
         private void ReceiveCallback(IAsyncResult asyncResult)
         {
             int count;
             try
             {
-                //异步方法Begin...必须调用相应的End...完成异步操作
                 count = m_Socket.EndReceive(asyncResult);
             }
-            catch (Exception ex)
+            catch (SocketException ex)
             {
-                //连接异常
-                Console.WriteLine("与{0}的连接异常，error：{1}", m_Socket.RemoteEndPoint.ToString(), ex.Message);
+                try
+                {
+                    m_Socket.Shutdown(SocketShutdown.Both);
+                }
+                finally
+                {
+                    m_Socket.Close();
+                }
+                Console.WriteLine($"与{ m_RemoteEndPoint }的连接异常，exception：{ ex }");
+                return;
+            }
+            catch (ObjectDisposedException)
+            {
                 return;
             }
 
@@ -137,21 +257,26 @@ namespace MMORPG_GameServer
                     }
                 }
 
-                //继续异步接收数据
-                m_Socket.BeginReceive(m_ReceiveBuffer, 0, m_ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, null);
+                BeginReceive();
             }
             else
             {
                 //客户端断开连接
-                Console.WriteLine("客户端{0}断开连接", m_Socket.RemoteEndPoint.ToString());
+                try
+                {
+                    m_Socket.Shutdown(SocketShutdown.Both);
+                }
+                finally
+                {
+                    m_Socket.Close();
+                }
+                Console.WriteLine($"客户端{ m_RemoteEndPoint }断开连接");
             }
         }
+        #endregion
 
-        /// <summary>
-        /// 封装数据包
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        #region 异步发送
+        // 封装数据包
         private byte[] MakeMsg(byte[] data)
         {
             //消息格式：数据包长度(ushort)|压缩标志(bool)|crc16(ushort)|先压缩后异或的数据包
@@ -183,22 +308,20 @@ namespace MMORPG_GameServer
         }
 
         /// <summary>
-        /// 发送消息
+        /// 异步发送
         /// </summary>
         /// <param name="data"></param>
-        public void SendMsg(byte[] data)
+        public void BeginSend(byte[] data)
         {
-            byte[] msg = MakeMsg(data);
-            m_Socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, SendCallback, null);
+            lock (m_ToBeSentMsgQueue)
+            {
+                m_ToBeSentMsgQueue.Enqueue(MakeMsg(data));
+                if (m_ToBeSentMsgQueue.Count == 1)
+                {
+                    m_CheckToBeSentMsgEvent.Set();
+                }
+            }
         }
-
-        /// <summary>
-        /// 发送消息的回调
-        /// </summary>
-        /// <param name="asyncResult"></param>
-        private void SendCallback(IAsyncResult asyncResult)
-        {
-            m_Socket.EndSend(asyncResult);
-        }
+        #endregion
     }
 }

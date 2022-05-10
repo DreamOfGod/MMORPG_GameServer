@@ -39,7 +39,7 @@ namespace MMORPG_GameServer.Controller
             var roleItemList = RoleCacheModel.Instance.GetRoleItemList(protocol.AccountId);
             returnProtocol.RoleCount = roleItemList.Count;
             returnProtocol.RoleList = roleItemList;
-            role.ClientSocket.SendMsg(returnProtocol.ToArray());
+            role.ClientSocket.BeginSend(returnProtocol.ToArray());
         }
     }
 }
