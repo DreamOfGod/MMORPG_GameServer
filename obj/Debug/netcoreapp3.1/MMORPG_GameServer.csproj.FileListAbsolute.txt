@@ -52,7 +52,6 @@ D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\MMORPG_GameServe
 D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
 D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
 D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.csproj.AssemblyReference.cache
 E:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\App.config
 E:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\MMORPG_GameServer.dll.config
 E:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
@@ -80,3 +79,4 @@ E:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\Mmcoy.Framework.
 E:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\zh-Hans\System.Web.Http.resources.dll
 E:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\zh-Hans\System.Net.Http.Formatting.resources.dll
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.csproj.CopyComplete
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.csproj.AssemblyReference.cache

@@ -9,16 +9,9 @@ namespace MMORPG_GameServer
     /// </summary>
     public class Role
     {
-        /// <summary>
-        /// 角色的客户端Socket对象
-        /// </summary>
-        private ClientSocket m_ClientSocket;
-
-        public ClientSocket ClientSocket { get { return m_ClientSocket; } }
-
-        public Role(ClientSocket clientSocket)
+        public Role()
         {
-            m_ClientSocket = clientSocket;
+            
         }
     }
 }

@@ -10,25 +10,7 @@ namespace MMORPG_GameServer.CacheModel
     {
         #region 单例
         private RoleCacheModel() { }
-        private static object lockObj = new object();
-        private static RoleCacheModel instance;
-        public static RoleCacheModel Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (lockObj)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new RoleCacheModel();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
+        public static RoleCacheModel Instance = new RoleCacheModel();
         #endregion
 
         public List<RoleOperation_LogOnGameServerReturnProto.RoleItem> GetRoleItemList(int accountId)

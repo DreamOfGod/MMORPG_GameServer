@@ -10,25 +10,7 @@ namespace MMORPG_GameServer.DBModel
     {
         #region 单例
         private RoleDBModel() { }
-        private static object lockObj = new object();
-        private static RoleDBModel instance;
-        public static RoleDBModel Instance
-        {
-            get
-            {
-                if(instance == null)
-                {
-                    lock(lockObj)
-                    {
-                        if(instance == null)
-                        {
-                            instance = new RoleDBModel();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
+        public static RoleDBModel Instance = new RoleDBModel();
         #endregion
 
         public List<RoleOperation_LogOnGameServerReturnProto.RoleItem> GetRoleItemList(int accountId)
@@ -36,10 +18,10 @@ namespace MMORPG_GameServer.DBModel
             using(var conn = new SqlConnection(DBConn.MMORPG_GameServer))
             {
                 conn.Open();
-                string sql = $"select Id, Nickname, JobId, Level from Role where AccountId = { accountId }";
-                SqlCommand command = new SqlCommand(sql, conn);
+                var sql = $"select Id, Nickname, JobId, Level from Role where AccountId = { accountId }";
+                var command = new SqlCommand(sql, conn);
                 var reader = command.ExecuteReader();
-                List<RoleOperation_LogOnGameServerReturnProto.RoleItem> list = new List<RoleOperation_LogOnGameServerReturnProto.RoleItem>();
+                var list = new List<RoleOperation_LogOnGameServerReturnProto.RoleItem>();
                 while(reader.Read())
                 {
                     var roleItem = new RoleOperation_LogOnGameServerReturnProto.RoleItem();

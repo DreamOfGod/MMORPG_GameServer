@@ -6,40 +6,22 @@ namespace MMORPG_GameServer.Controller
     {
         #region 单例
         private RoleController() { }
-        private static object lockObj = new object();
-        private static RoleController instance;
-        public static RoleController Instance 
-        {
-            get
-            {
-                if(instance == null)
-                {
-                    lock(lockObj) 
-                    {
-                        if(instance == null)
-                        {
-                            instance = new RoleController();
-                        } 
-                    }
-                }
-                return instance;
-            }
-        }
+        public static readonly RoleController Instance = new RoleController();
         #endregion
 
         public void Init()
         {
-            EventDispatcher.Instance.AddListener(ProtoCodeDef.RoleOperation_LogOnGameServer, OnLogonGameServer);
+            SocketMsgDispatcher.Instance.AddListener(ProtoCodeDef.RoleOperation_LogOnGameServer, OnLogonGameServer);
         }
 
-        private void OnLogonGameServer(byte[] buffer, Role role)
+        private void OnLogonGameServer(byte[] buffer, ClientSocket clientSocket)
         {
             var protocol = RoleOperation_LogOnGameServerProto.GetProto(buffer);
-            RoleOperation_LogOnGameServerReturnProto returnProtocol = new RoleOperation_LogOnGameServerReturnProto();
+            var returnProtocol = new RoleOperation_LogOnGameServerReturnProto();
             var roleItemList = RoleCacheModel.Instance.GetRoleItemList(protocol.AccountId);
             returnProtocol.RoleCount = roleItemList.Count;
             returnProtocol.RoleList = roleItemList;
-            role.ClientSocket.BeginSend(returnProtocol.ToArray());
+            clientSocket.BeginSend(returnProtocol.ToArray());
         }
     }
 }
