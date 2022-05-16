@@ -8,9 +8,9 @@ namespace MMORPG_GameServer
     class Program
     {
         //socket监听的ip
-        private const string m_ServerIP = "192.168.1.4";
+        private const string m_ServerIP = "127.0.0.1";
         //socket监听的端口号
-        private const int m_Port = 1011;
+        private const int m_Port = 1001;
 
         //accpet socket
         private static Socket m_AcceptSocket;
