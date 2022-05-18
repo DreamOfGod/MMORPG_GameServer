@@ -10,8 +10,13 @@ namespace MMORPG_GameServer
     /// </summary>
     public class ClientSocket
     {
-        //角色
-        private Role m_Role;
+        #region 账户ID
+        private int m_AccountId = -1;
+        /// <summary>
+        /// 账户ID
+        /// </summary>
+        public int AccountId { get => m_AccountId; set => m_AccountId = value; }
+        #endregion
 
         //锁对象
         private object m_Lock = new object();
@@ -41,10 +46,9 @@ namespace MMORPG_GameServer
         #endregion
 
         #region 构造函数
-        public ClientSocket(Socket socket, Role role)
+        public ClientSocket(Socket socket)
         {
             m_Socket = socket;
-            m_Role = role;
             m_RemoteEndPoint = (IPEndPoint)socket.RemoteEndPoint;
             BeginReceive();
         }

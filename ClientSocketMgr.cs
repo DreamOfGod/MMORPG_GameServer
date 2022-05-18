@@ -12,29 +12,29 @@ namespace MMORPG_GameServer
         /// <summary>
         /// 客户端Socket列表
         /// </summary>
-        private List<ClientSocket> m_ClientSocketList = new List<ClientSocket>();
+        private List<ClientSocket> m_ClientList = new List<ClientSocket>();
 
         /// <summary>
-        /// 添加客户端Socket
+        /// 添加客户端
         /// </summary>
-        /// <param name="clientSocket"></param>
-        public void AddClientSocket(ClientSocket clientSocket)
+        /// <param name="client"></param>
+        public void AddClientSocket(ClientSocket client)
         {
-            lock (m_ClientSocketList)
+            lock (m_ClientList)
             {
-                m_ClientSocketList.Add(clientSocket);
+                m_ClientList.Add(client);
             }
         }
 
         /// <summary>
-        /// 删除客户端Socket
+        /// 删除客户端
         /// </summary>
-        /// <param name="clientSocket"></param>
-        public void RemoveClientSocket(ClientSocket clientSocket)
+        /// <param name="client"></param>
+        public void RemoveClientSocket(ClientSocket client)
         {
-            lock (m_ClientSocketList)
+            lock (m_ClientList)
             {
-                m_ClientSocketList.Remove(clientSocket);
+                m_ClientList.Remove(client);
             }
         }
     }

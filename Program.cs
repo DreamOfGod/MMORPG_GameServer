@@ -48,8 +48,7 @@ namespace MMORPG_GameServer
                     return;
                 }
                 Console.WriteLine($"客户端{ socket.RemoteEndPoint }已经连接");
-                Role role = new Role();
-                ClientSocket clientSocket = new ClientSocket(socket, role);
+                ClientSocket clientSocket = new ClientSocket(socket);
                 ClientSocketMgr.Instance.AddClientSocket(clientSocket);
             }
         }

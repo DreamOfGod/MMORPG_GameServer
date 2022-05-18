@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entity\Role\" />
     <Folder Include="Protocol\" />
   </ItemGroup>
 

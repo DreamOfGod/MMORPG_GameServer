@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using static MMORPG_GameServer.DBModel.RoleDBModel;
 
 namespace MMORPG_GameServer.CacheModel
 {
@@ -10,12 +11,27 @@ namespace MMORPG_GameServer.CacheModel
     {
         #region 单例
         private RoleCacheModel() { }
-        public static RoleCacheModel Instance = new RoleCacheModel();
+        public static readonly RoleCacheModel Instance = new RoleCacheModel();
         #endregion
 
+        /// <summary>
+        /// 获取用户的角色列表
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
         public List<RoleOperation_LogOnGameServerReturnProto.RoleItem> GetRoleItemList(int accountId)
         {
             return RoleDBModel.Instance.GetRoleItemList(accountId);
+        }
+
+        /// <summary>
+        /// 创建角色
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public async Task<CreateRoleReturn> CreateRole(CreateRoleParam roleParam)
+        {
+            return await RoleDBModel.Instance.CreateRole(roleParam);
         }
     }
 }
