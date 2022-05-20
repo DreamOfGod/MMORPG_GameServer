@@ -21,16 +21,16 @@ namespace MMORPG_GameServer.DBModel
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        public List<RoleOperation_LogOnGameServerReturnProto.RoleItem> GetRoleItemList(int accountId)
+        public async Task<List<RoleOperation_LogOnGameServerReturnProto.RoleItem>> GetRoleItemList(int accountId)
         {
             using(var conn = new SqlConnection(DBConn.MMORPG_GameServer))
             {
-                conn.Open();
+                await conn.OpenAsync();
                 var sql = $"select Id, Nickname, JobId, Level from Role where AccountId = { accountId }";
                 var command = new SqlCommand(sql, conn);
-                var reader = command.ExecuteReader();
+                var reader = await command.ExecuteReaderAsync();
                 var list = new List<RoleOperation_LogOnGameServerReturnProto.RoleItem>();
-                while(reader.Read())
+                while(await reader.ReadAsync())
                 {
                     var roleItem = new RoleOperation_LogOnGameServerReturnProto.RoleItem();
                     roleItem.RoleId = reader.GetInt32(0);
@@ -71,20 +71,29 @@ namespace MMORPG_GameServer.DBModel
             using(var conn = new SqlConnection(DBConn.MMORPG_GameServer))
             {
                 await conn.OpenAsync();
-                var sql =
-$@"insert into Role
-(Status, AccountId, JobId, Nickname, CreateTime)
-values
-({ ((byte)EntityStatus.Released) }, { roleParam.AccountId }, { roleParam.JobId }, '{ roleParam.Nickname }', '{ DateTime.Now }')";
-                var insertCmd = new SqlCommand(sql, conn);
+                var tran = await conn.BeginTransactionAsync(IsolationLevel.ReadCommitted) as SqlTransaction;//设为ReadCommitted允许一定程度的昵称重复
                 try
                 {
-                    int count = await insertCmd.ExecuteNonQueryAsync();
+                    var selectSql = "select count(Id) from Role where Nickname = @Nickname";
+                    var selectCmd = new SqlCommand(selectSql, conn, tran);
+                    selectCmd.Parameters.Add(new SqlParameter("@Nickname", roleParam.Nickname));
+                    int count = (int)selectCmd.ExecuteScalar();
+                    if (count > 0)
+                    {
+                        //昵称重复
+                        return CreateRoleReturn.NicknameRepeat;
+                    }
+                    var insertSql = $"insert into Role (Status, AccountId, JobId, Nickname, Level, CreateTime) values ({ ((byte)EntityStatus.Released) }, { roleParam.AccountId }, { roleParam.JobId }, @Nickname, 1, '{ DateTime.Now }')";
+                    var insertCmd = new SqlCommand(insertSql, conn, tran);
+                    insertCmd.Parameters.Add(new SqlParameter("@Nickname", roleParam.Nickname));
+                    count = await insertCmd.ExecuteNonQueryAsync();
+                    await tran.CommitAsync();
                     return count == 1 ? CreateRoleReturn.Success : CreateRoleReturn.Fail;
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
-                    return CreateRoleReturn.NicknameRepeat;
+                    await tran.RollbackAsync();
+                    return CreateRoleReturn.Fail;
                 }
             }
         }

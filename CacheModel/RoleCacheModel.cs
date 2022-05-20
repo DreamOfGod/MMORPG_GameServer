@@ -19,9 +19,9 @@ namespace MMORPG_GameServer.CacheModel
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        public List<RoleOperation_LogOnGameServerReturnProto.RoleItem> GetRoleItemList(int accountId)
+        public async Task<List<RoleOperation_LogOnGameServerReturnProto.RoleItem>> GetRoleItemList(int accountId)
         {
-            return RoleDBModel.Instance.GetRoleItemList(accountId);
+            return await RoleDBModel.Instance.GetRoleItemList(accountId);
         }
 
         /// <summary>

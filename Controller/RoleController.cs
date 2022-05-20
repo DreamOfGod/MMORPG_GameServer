@@ -17,11 +17,11 @@ namespace MMORPG_GameServer.Controller
             SocketMsgDispatcher.Instance.AddListener(ProtoCodeDef.RoleOperation_CreateRole, OnCreateRole);
         }
 
-        private void OnLogonGameServer(byte[] buffer, ClientSocket clientSocket)
+        private async void OnLogonGameServer(byte[] buffer, ClientSocket clientSocket)
         {
             var logonServerProto = RoleOperation_LogOnGameServerProto.GetProto(buffer);
             clientSocket.AccountId = logonServerProto.AccountId;
-            var roleItemList = RoleCacheModel.Instance.GetRoleItemList(logonServerProto.AccountId);
+            var roleItemList = await RoleCacheModel.Instance.GetRoleItemList(logonServerProto.AccountId);
             var logonServerReturnProto = new RoleOperation_LogOnGameServerReturnProto();
             logonServerReturnProto.RoleCount = roleItemList.Count;
             logonServerReturnProto.RoleList = roleItemList;
