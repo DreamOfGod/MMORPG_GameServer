@@ -79,3 +79,4 @@ E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServe
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.dll
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.pdb
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.genruntimeconfig.cache
+E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.csproj.AssemblyReference.cache
