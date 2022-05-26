@@ -181,7 +181,7 @@ namespace MMORPG_GameServer
                             //协议ID
                             var protoCode = ms.ReadUShort();
                             //协议内容
-                            var protoContent = new byte[contentCount - 2];
+                            var protoContent = new byte[content.Length - 2];
                             ms.Read(protoContent, 0, protoContent.Length);
                             //派发协议消息
                             SocketMsgDispatcher.Instance.Dispatch(protoCode, protoContent, this);
