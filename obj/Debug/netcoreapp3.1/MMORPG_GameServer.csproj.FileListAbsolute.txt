@@ -38,7 +38,6 @@ D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\MMORPG_GameServe
 D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
 D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
 D:\Code\UnityProjects\MMORPG_GameServer\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.csproj.AssemblyReference.cache
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.GeneratedMSBuildEditorConfig.editorconfig
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.AssemblyInfoInputs.cache
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.AssemblyInfo.cs
@@ -80,3 +79,4 @@ E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServe
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.pdb
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.genruntimeconfig.cache
 E:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.csproj.AssemblyReference.cache
+D:\Code\UnityProjects\MMORPG_GameServer\obj\Debug\netcoreapp3.1\MMORPG_GameServer.csproj.AssemblyReference.cache

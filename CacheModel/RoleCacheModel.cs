@@ -29,7 +29,7 @@ namespace MMORPG_GameServer.CacheModel
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task<CreateRoleReturn> CreateRole(CreateRoleParam roleParam)
+        public async Task<int> CreateRole(CreateRoleParam roleParam)
         {
             return await RoleDBModel.Instance.CreateRole(roleParam);
         }
